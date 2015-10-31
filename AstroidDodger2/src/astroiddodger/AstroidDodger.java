@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import GameLoop.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 
 /**
  *
@@ -90,21 +91,17 @@ public class AstroidDodger extends GameLoop
                 createAstroid();
             }
         
-            ArrayList<Astroids> remove = new ArrayList<Astroids>();
-        
-            AstroidsList.stream().forEach((a) -> 
+            Iterator<Astroids> i = AstroidsList.iterator();
+            
+            while(i.hasNext())
             {
-                a.update();
-                if(a.Dead)
-                {
-                    remove.add(a);
+                Astroids a = i.next();
+                if(a.Dead){
+                    i.remove();
+                    Score++;
                 }
-            });
-        
-            for(Astroids a : remove)
-            {
-                AstroidsList.remove(a);
-                Score++;
+                else
+                    a.update();
             }
         
             player.update(AstroidsList);
